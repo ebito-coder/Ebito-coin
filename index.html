@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Ebito Coin</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #07111f;
+    color: white;
+    min-height: 100vh;
+}
+
+.app {
+    max-width: 500px;
+    margin: auto;
+    min-height: 100vh;
+    padding-bottom: 90px;
+}
+
+/* HEADER */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #00e89a;
+}
+
+.user {
+    background: #16243a;
+    padding: 8px 13px;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+/* PAGES */
+
+.page {
+    display: none;
+    padding: 10px 20px;
+}
+
+.page.active {
+    display: block;
+}
+
+/* BALANCE */
+
+.balance-card {
+    margin-top: 15px;
+    background: linear-gradient(145deg, #162b49, #0d192c);
+    border: 1px solid #243b5d;
+    border-radius: 25px;
+    padding: 28px 15px;
+    text-align: center;
+}
+
+.balance-title {
+    color: #8b9bb5;
+    font-size: 14px;
+}
+
+.balance {
+    font-size: 45px;
+    font-weight: bold;
+    margin: 8px 0;
+}
+
+.coin-name {
+    color: #00e89a;
+    font-weight: bold;
+}
+
+/* COIN */
+
+.tap-area {
+    text-align: center;
+    padding: 35px 0;
+}
+
+.coin {
+    width: 190px;
+    height: 190px;
+    margin: auto;
+
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 65px;
+    font-weight: bold;
+
+    color: #5a3b00;
+
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            #fff4a6,
+            #ffd43b 35%,
+            #e4a900 75%,
+            #a96f00
+        );
+
+    border: 7px solid #f3c52c;
+
+    box-shadow:
+        0 0 0 10px rgba(243,197,44,0.08),
+        0 15px 45px rgba(243,197,44,0.2);
+
+    cursor: pointer;
+
+    transition: transform 0.08s;
+}
+
+.coin:active {
+    transform: scale(0.92);
+}
+
+.tap-text {
+    margin-top: 15px;
+    color: #8998b0;
+    font-size: 13px;
+}
+
+/* STATS */
+
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.stat {
+    background: #111e32;
+    border: 1px solid #223451;
+    border-radius: 17px;
+    padding: 18px;
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.stat-label {
+    margin-top: 5px;
+    color: #8492aa;
+    font-size: 12px;
+}
+
+/* TASKS */
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #111e32;
+    border: 1px solid #223451;
+
+    padding: 15px;
+    border-radius: 17px;
+
+    margin-bottom: 12px;
+}
+
+.task-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.task-icon {
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #1a2b45;
+    border-radius: 12px;
+
+    font-size: 21px;
+}
+
+.task-name {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.reward {
+    color: #00e89a;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
+.claim {
+    background: #00e89a;
+    color: #04150e;
+
+    padding: 10px 13px;
+
+    border-radius: 10px;
+
+    font-weight: bold;
+}
+
+.claim.done {
+    background: #2a3850;
+    color: #8592aa;
+}
+
+/* INVITE */
+
+.invite-box {
+    background: linear-gradient(145deg, #162b49, #0d192c);
+    border: 1px solid #243b5d;
+
+    border-radius: 20px;
+
+    padding: 25px 18px;
+
+    text-align: center;
+}
+
+.invite-box h2 {
+    margin-bottom: 12px;
+}
+
+.invite-box p {
+    color: #96a5bd;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.referral {
+    margin: 20px 0;
+
+    background: #07111f;
+    border: 1px solid #273b59;
+
+    padding: 13px;
+
+    border-radius: 10px;
+
+    font-size: 12px;
+
+    word-break: break-all;
+}
+
+.copy {
+    background: #00e89a;
+    color: #04150e;
+
+    padding: 12px 20px;
+
+    border-radius: 10px;
+
+    font-weight: bold;
+}
+
+/* PROFILE */
+
+.profile-box {
+    background: #111e32;
+    border: 1px solid #223451;
+
+    border-radius: 18px;
+
+    padding: 18px;
+}
+
+.profile-row {
+    padding: 15px 0;
+    border-bottom: 1px solid #223451;
+}
+
+.profile-row:last-child {
+    border-bottom: none;
+}
+
+.profile-label {
+    color: #8290a8;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.profile-value {
+    font-weight: bold;
+}
+
+/* NAVIGATION */
+
+.bottom-nav {
+    position: fixed;
+
+    bottom: 0;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 100%;
+    max-width: 500px;
+
+    background: #091525;
+
+    border-top: 1px solid #223451;
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    padding: 8px 5px;
+}
+
+.nav-button {
+    background: transparent;
+
+    color: #75849d;
+
+    padding: 7px;
+
+    font-size: 11px;
+}
+
+.nav-button span {
+    display: block;
+    font-size: 21px;
+    margin-bottom: 3px;
+}
+
+.nav-button.active {
+    color: #00e89a;
+}
+
+/* POPUP */
+
+.popup {
+    position: fixed;
+
+    top: 20px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background: #17263d;
+
+    border: 1px solid #304562;
+
+    padding: 12px 18px;
+
+    border-radius: 12px;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: 0.25s;
+
+    z-index: 100;
+}
+
+.popup.show {
+    opacity: 1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+
+<div class="logo">
+EBITO <span>COIN</span>
+</div>
+
+<div class="user">
+Guest
+</div>
+
+</header>
+
+
+<!-- HOME -->
+
+<section id="home" class="page active">
+
+<div class="balance-card">
+
+<div class="balance-title">
+Your Balance
+</div>
+
+<div class="balance" id="balance">
+0
+</div>
+
+<div class="coin-name">
+EBITO
+</div>
+
+</div>
+
+
+<div class="tap-area">
+
+<div class="coin" id="coinButton">
+E
+</div>
+
+<div class="tap-text">
+Tap the coin to earn EBITO
+</div>
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-number" id="tapCount">
+0
+</div>
+
+<div class="stat-label">
+Total Taps
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-number" id="refCount">
+0
+</div>
+
+<div class="stat-label">
+Referrals
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- TASKS -->
+
+<section id="tasks" class="page">
+
+<div class="title">
+Tasks
+</div>
+
+
+<div class="task">
+
+<div class="task-info">
+
+<div class="task-icon">
+📢
+</div>
+
+<div>
+
+<div class="task-name">
+Join our Telegram
+</div>
+
+<div class="reward">
++500 EBITO
+</div>
+
+</div>
+
+</div>
+
+<button class="claim"
+onclick="claimTask(this,500)">
+Claim
+</button>
+
+</div>
+
+
+
+<div class="task">
+
+<div class="task-info">
+
+<div class="task-icon">
+▶️
+</div>
+
+<div>
+
+<div class="task-name">
+Watch our YouTube
+</div>
+
+<div class="reward">
++1,000 EBITO
+</div>
+
+</div>
+
+</div>
+
+<button class="claim"
+onclick="claimTask(this,1000)">
+Claim
+</button>
+
+</div>
+
+
+
+<div class="task">
+
+<div class="task-info">
+
+<div class="task-icon">
+🎵
+</div>
+
+<div>
+
+<div class="task-name">
+Follow TikTok
+</div>
+
+<div class="reward">
++750 EBITO
+</div>
+
+</div>
+
+</div>
+
+<button class="claim"
+onclick="claimTask(this,750)">
+Claim
+</button>
+
+</div>
+
+</section>
+
+
+
+<!-- INVITE -->
+
+<section id="invite" class="page">
+
+<div class="title">
+Invite Friends
+</div>
+
+<div class="invite-box">
+
+<h2>
+Earn Together 🚀
+</h2>
+
+<p>
+Invite your friends to Ebito Coin and earn more EBITO.
+</p>
+
+<div class="referral" id="referralLink">
+https://t.me/EbitoCoinBot?start=ref
+</div>
+
+<button class="copy"
+onclick="copyLink()">
+Copy Link
+</button>
+
+</div>
+
+</section>
+
+
+
+<!-- PROFILE -->
+
+<section id="profile" class="page">
+
+<div class="title">
+Profile
+</div>
+
+<div class="profile-box">
+
+<div class="profile-row">
+
+<div class="profile-label">
+Username
+</div>
+
+<div class="profile-value">
+Guest
+</div>
+
+</div>
+
+
+<div class="profile-row">
+
+<div class="profile-label">
+Coins
+</div>
+
+<div class="profile-value"
+id="profileCoins">
+0
+</div>
+
+</div>
+
+
+<div class="profile-row">
+
+<div class="profile-label">
+Total Taps
+</div>
+
+<div class="profile-value"
+id="profileTaps">
+0
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottom-nav">
+
+<button class="nav-button active"
+onclick="showPage('home',this)">
+
+<span>🏠</span>
+
+Home
+
+</button>
+
+
+<button class="nav-button"
+onclick="showPage('tasks',this)">
+
+<span>🎯</span>
+
+Tasks
+
+</button>
+
+
+<button class="nav-button"
+onclick="showPage('invite',this)">
+
+<span>👥</span>
+
+Invite
+
+</button>
+
+
+<button class="nav-button"
+onclick="showPage('profile',this)">
+
+<span>👤</span>
+
+Profile
+
+</button>
+
+</nav>
+
+
+
+<div class="popup" id="popup">
++1 EBITO
+</div>
+
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+let coins =
+Number(localStorage.getItem("ebito_coins")) || 0;
+
+let taps =
+Number(localStorage.getItem("ebito_taps")) || 0;
+
+
+/* =========================
+   UPDATE SCREEN
+========================= */
+
+function updateScreen() {
+
+    document.getElementById("balance")
+        .textContent = coins.toLocaleString();
+
+    document.getElementById("tapCount")
+        .textContent = taps.toLocaleString();
+
+    document.getElementById("profileCoins")
+        .textContent = coins.toLocaleString();
+
+    document.getElementById("profileTaps")
+        .textContent = taps.toLocaleString();
+
+}
+
+
+/* =========================
+   SAVE DATA
+========================= */
+
+function saveData() {
+
+    localStorage.setItem(
+        "ebito_coins",
+        coins
+    );
+
+    localStorage.setItem(
+        "ebito_taps",
+        taps
+    );
+
+}
+
+
+/* =========================
+   TAP COIN
+========================= */
+
+document
+.getElementById("coinButton")
+.addEventListener("click", function() {
+
+    coins += 1;
+
+    taps += 1;
+
+    saveData();
+
+    updateScreen();
+
+    showPopup("+1 EBITO");
+
+});
+
+
+/* =========================
+   TASKS
+========================= */
+
+function claimTask(button, reward) {
+
+    if (button.disabled) {
+        return;
+    }
+
+    coins += reward;
+
+    saveData();
+
+    updateScreen();
+
+    button.textContent = "Done";
+
+    button.classList.add("done");
+
+    button.disabled = true;
+
+    showPopup(
+        "+" + reward.toLocaleString() + " EBITO"
+    );
+
+}
+
+
+/* =========================
+   PAGE NAVIGATION
+========================= */
+
+function showPage(pageId, button) {
+
+    document
+    .querySelectorAll(".page")
+    .forEach(function(page) {
+
+        page.classList.remove("active");
+
+    });
+
+
+    document
+    .getElementById(pageId)
+    .classList.add("active");
+
+
+    document
+    .querySelectorAll(".nav-button")
+    .forEach(function(btn) {
+
+        btn.classList.remove("active");
+
+    });
+
+
+    button.classList.add("active");
+
+    window.scrollTo(0,0);
+
+}
+
+
+/* =========================
+   COPY REFERRAL
+========================= */
+
+function copyLink() {
+
+    const link =
+    document.getElementById(
+        "referralLink"
+    ).textContent;
+
+    navigator.clipboard
+    .writeText(link)
+    .then(function() {
+
+        showPopup("Link Copied!");
+
+    })
+    .catch(function() {
+
+        showPopup("Copy failed");
+
+    });
+
+}
+
+
+/* =========================
+   POPUP
+========================= */
+
+let popupTimer;
+
+function showPopup(text) {
+
+    const popup =
+    document.getElementById("popup");
+
+    popup.textContent = text;
+
+    popup.classList.add("show");
+
+    clearTimeout(popupTimer);
+
+    popupTimer =
+    setTimeout(function() {
+
+        popup.classList.remove("show");
+
+    }, 1500);
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+updateScreen();
+
+</script>
+
+</body>
+</html>
