@@ -1,774 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#07120c">
 
+<title>EBiTO Coin</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+  background:#06100b;
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
-.stat-label {
-    margin-top: 5px;
-    color: #8492aa;
-    font-size: 12px;
+body{
+  overflow-x:hidden;
 }
 
-/* TASKS */
-
-.title {
-    font-size: 24px;
-    font-weight: bold;
-    margin: 15px 0;
+button,input{
+  font:inherit;
 }
 
-.task {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    background: #111e32;
-    border: 1px solid #223451;
-
-    padding: 15px;
-    border-radius: 17px;
-
-    margin-bottom: 12px;
+button{
+  border:0;
+  cursor:pointer;
 }
 
-.task-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.app{
+  width:100%;
+  max-width:520px;
+  margin:auto;
+  min-height:100vh;
+  padding-bottom:90px;
 }
 
-.task-icon {
-    width: 45px;
-    height: 45px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background: #1a2b45;
-    border-radius: 12px;
-
-    font-size: 21px;
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 16px 8px;
 }
 
-.task-name {
-    font-weight: bold;
-    font-size: 14px;
+.logo{
+  font-size:25px;
+  font-weight:900;
+  color:#62ff9b;
 }
 
-.reward {
-    color: #00e89a;
-    font-size: 12px;
-    margin-top: 5px;
+.logo span{
+  color:#fff;
 }
 
-button {
-    border: none;
-    cursor: pointer;
+.user-pill{
+  background:#11241a;
+  border:1px solid #1e402d;
+  padding:8px 12px;
+  border-radius:20px;
+  font-size:12px;
+  max-width:170px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
-.claim {
-    background: #00e89a;
-    color: #04150e;
-
-    padding: 10px 13px;
-
-    border-radius: 10px;
-
-    font-weight: bold;
+.page{
+  display:none;
+  padding:12px 15px 20px;
 }
 
-.claim.done {
-    background: #2a3850;
-    color: #8592aa;
+.page.active{
+  display:block;
 }
 
-/* INVITE */
-
-.invite-box {
-    background: linear-gradient(145deg, #162b49, #0d192c);
-    border: 1px solid #243b5d;
-
-    border-radius: 20px;
-
-    padding: 25px 18px;
-
-    text-align: center;
+.balance-card{
+  position:relative;
+  overflow:hidden;
+  text-align:center;
+  padding:25px 18px;
+  border-radius:25px;
+  background:
+    radial-gradient(circle at top,#185c36,#0d281a 45%,#091810);
+  border:1px solid #286340;
+  box-shadow:0 12px 40px #0007;
 }
 
-.invite-box h2 {
-    margin-bottom: 12px;
+.balance-card:after{
+  content:"";
+  position:absolute;
+  width:160px;
+  height:160px;
+  right:-70px;
+  top:-70px;
+  border-radius:50%;
+  background:#63ff9b18;
 }
 
-.invite-box p {
-    color: #96a5bd;
-    font-size: 14px;
-    line-height: 1.5;
+.small-title{
+  color:#91aa9a;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.5px;
 }
 
-.referral {
-    margin: 20px 0;
-
-    background: #07111f;
-    border: 1px solid #273b59;
-
-    padding: 13px;
-
-    border-radius: 10px;
-
-    font-size: 12px;
-
-    word-break: break-all;
+.balance{
+  margin:7px 0;
+  font-size:42px;
+  line-height:1;
+  font-weight:900;
 }
 
-.copy {
-    background: #00e89a;
-    color: #04150e;
-
-    padding: 12px 20px;
-
-    border-radius: 10px;
-
-    font-weight: bold;
+.symbol{
+  color:#63ff9b;
+  font-size:20px;
 }
 
-/* PROFILE */
-
-.profile-box {
-    background: #111e32;
-    border: 1px solid #223451;
-
-    border-radius: 18px;
-
-    padding: 18px;
+.mining-rate{
+  color:#9ab0a1;
+  font-size:12px;
 }
 
-.profile-row {
-    padding: 15px 0;
-    border-bottom: 1px solid #223451;
+.tap-section{
+  text-align:center;
+  padding:25px 0 12px;
 }
 
-.profile-row:last-child {
-    border-bottom: none;
+.coin{
+  width:190px;
+  height:190px;
+  margin:auto;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:31px;
+  font-weight:900;
+  color:#052111;
+  background:
+    radial-gradient(circle at 32% 28%,#d7ffe4 0,#83ffad 25%,#39d875 54%,#087333 100%);
+  box-shadow:
+    0 0 0 9px #63ff9b0b,
+    0 0 50px #4cff9270;
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:manipulation;
+  transition:transform .07s;
 }
 
-.profile-label {
-    color: #8290a8;
-    font-size: 12px;
-    margin-bottom: 5px;
+.coin:active{
+  transform:scale(.93);
 }
 
-.profile-value {
-    font-weight: bold;
+.energy{
+  margin-top:18px;
+  font-size:13px;
+  color:#a3b6aa;
 }
 
-/* NAVIGATION */
-
-.bottom-nav {
-    position: fixed;
-
-    bottom: 0;
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    width: 100%;
-    max-width: 500px;
-
-    background: #091525;
-
-    border-top: 1px solid #223451;
-
-    display: grid;
-
-    grid-template-columns: repeat(4, 1fr);
-
-    padding: 8px 5px;
+.progress{
+  width:100%;
+  height:8px;
+  margin-top:8px;
+  border-radius:20px;
+  overflow:hidden;
+  background:#16271d;
 }
 
-.nav-button {
-    background: transparent;
-
-    color: #75849d;
-
-    padding: 7px;
-
-    font-size: 11px;
+.progress-bar{
+  height:100%;
+  background:#63ff9b;
+  border-radius:20px;
+  transition:.2s;
 }
 
-.nav-button span {
-    display: block;
-    font-size: 21px;
-    margin-bottom: 3px;
+.section-title{
+  margin:21px 0 11px;
+  font-size:18px;
+  font-weight:900;
 }
 
-.nav-button.active {
-    color: #00e89a;
+.card{
+  margin-bottom:12px;
+  padding:16px;
+  border-radius:18px;
+  background:#0c1b13;
+  border:1px solid #1d3928;
 }
 
-/* POPUP */
-
-.popup {
-    position: fixed;
-
-    top: 20px;
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    background: #17263d;
-
-    border: 1px solid #304562;
-
-    padding: 12px 18px;
-
-    border-radius: 12px;
-
-    opacity: 0;
-
-    pointer-events: none;
-
-    transition: 0.25s;
-
-    z-index: 100;
+.row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
 }
 
-.popup.show {
-    opacity: 1;
-}
-</style>
-</head>
-
-<body>
-
-<div class="app">
-
-<header>
-
-<div class="logo">
-EBITO <span>COIN</span>
-</div>
-
-<div class="user">
-Guest
-</div>
-
-</header>
-
-
-<!-- HOME -->
-
-<section id="home" class="page active">
-
-<div class="balance-card">
-
-<div class="balance-title">
-Your Balance
-</div>
-
-<div class="balance" id="balance">
-0
-</div>
-
-<div class="coin-name">
-EBITO
-</div>
-
-</div>
-
-
-<div class="tap-area">
-
-<div class="coin" id="coinButton">
-E
-</div>
-
-<div class="tap-text">
-Tap the coin to earn EBITO
-</div>
-
-</div>
-
-
-<div class="stats">
-
-<div class="stat">
-
-<div class="stat-number" id="tapCount">
-0
-</div>
-
-<div class="stat-label">
-Total Taps
-</div>
-
-</div>
-
-
-<div class="stat">
-
-<div class="stat-number" id="refCount">
-0
-</div>
-
-<div class="stat-label">
-Referrals
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- TASKS -->
-
-<section id="tasks" class="page">
-
-<div class="title">
-Tasks
-</div>
-
-
-<div class="task">
-
-<div class="task-info">
-
-<div class="task-icon">
-📢
-</div>
-
-<div>
-
-<div class="task-name">
-Join our Telegram
-</div>
-
-<div class="reward">
-+500 EBITO
-</div>
-
-</div>
-
-</div>
-
-<button class="claim"
-onclick="claimTask(this,500)">
-Claim
-</button>
-
-</div>
-
-
-
-<div class="task">
-
-<div class="task-info">
-
-<div class="task-icon">
-▶️
-</div>
-
-<div>
-
-<div class="task-name">
-Watch our YouTube
-</div>
-
-<div class="reward">
-+1,000 EBITO
-</div>
-
-</div>
-
-</div>
-
-<button class="claim"
-onclick="claimTask(this,1000)">
-Claim
-</button>
-
-</div>
-
-
-
-<div class="task">
-
-<div class="task-info">
-
-<div class="task-icon">
-🎵
-</div>
-
-<div>
-
-<div class="task-name">
-Follow TikTok
-</div>
-
-<div class="reward">
-+750 EBITO
-</div>
-
-</div>
-
-</div>
-
-<button class="claim"
-onclick="claimTask(this,750)">
-Claim
-</button>
-
-</div>
-
-</section>
-
-
-
-<!-- INVITE -->
-
-<section id="invite" class="page">
-
-<div class="title">
-Invite Friends
-</div>
-
-<div class="invite-box">
-
-<h2>
-Earn Together 🚀
-</h2>
-
-<p>
-Invite your friends to Ebito Coin and earn more EBITO.
-</p>
-
-<div class="referral" id="referralLink">
-https://t.me/EbitoCoinBot?start=ref
-</div>
-
-<button class="copy"
-onclick="copyLink()">
-Copy Link
-</button>
-
-</div>
-
-</section>
-
-
-
-<!-- PROFILE -->
-
-<section id="profile" class="page">
-
-<div class="title">
-Profile
-</div>
-
-<div class="profile-box">
-
-<div class="profile-row">
-
-<div class="profile-label">
-Username
-</div>
-
-<div class="profile-value">
-Guest
-</div>
-
-</div>
-
-
-<div class="profile-row">
-
-<div class="profile-label">
-Coins
-</div>
-
-<div class="profile-value"
-id="profileCoins">
-0
-</div>
-
-</div>
-
-
-<div class="profile-row">
-
-<div class="profile-label">
-Total Taps
-</div>
-
-<div class="profile-value"
-id="profileTaps">
-0
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-</div>
-
-
-
-<!-- BOTTOM NAV -->
-
-<nav class="bottom-nav">
-
-<button class="nav-button active"
-onclick="showPage('home',this)">
-
-<span>🏠</span>
-
-Home
-
-</button>
-
-
-<button class="nav-button"
-onclick="showPage('tasks',this)">
-
-<span>🎯</span>
-
-Tasks
-
-</button>
-
-
-<button class="nav-button"
-onclick="showPage('invite',this)">
-
-<span>👥</span>
-
-Invite
-
-</button>
-
-
-<button class="nav-button"
-onclick="showPage('profile',this)">
-
-<span>👤</span>
-
-Profile
-
-</button>
-
-</nav>
-
-
-
-<div class="popup" id="popup">
-+1 EBITO
-</div>
-
-
-
-<script>
-
-/* =========================
-   DATA
-========================= */
-
-let coins =
-Number(localStorage.getItem("ebito_coins")) || 0;
-
-let taps =
-Number(localStorage.getItem("ebito_taps")) || 0;
-
-
-/* =========================
-   UPDATE SCREEN
-========================= */
-
-function updateScreen() {
-
-    document.getElementById("balance")
-        .textContent = coins.toLocaleString();
-
-    document.getElementById("tapCount")
-        .textContent = taps.toLocaleString();
-
-    document.getElementById("profileCoins")
-        .textContent = coins.toLocaleString();
-
-    document.getElementById("profileTaps")
-        .textContent = taps.toLocaleString();
-
+.muted{
+  color:#82978a;
+  font-size:12px;
 }
 
-
-/* =========================
-   SAVE DATA
-========================= */
-
-function saveData() {
-
-    localStorage.setItem(
-        "ebito_coins",
-        coins
-    );
-
-    localStorage.setItem(
-        "ebito_taps",
-        taps
-    );
-
+.btn{
+  min-height:42px;
+  padding:10px 15px;
+  border-radius:13px;
+  background:#63ff9b;
+  color:#052111;
+  font-weight:900;
 }
 
-
-/* =========================
-   TAP COIN
-========================= */
-
-document
-.getElementById("coinButton")
-.addEventListener("click", function() {
-
-    coins += 1;
-
-    taps += 1;
-
-    saveData();
-
-    updateScreen();
-
-    showPopup("+1 EBITO");
-
-});
-
-
-/* =========================
-   TASKS
-========================= */
-
-function claimTask(button, reward) {
-
-    if (button.disabled) {
-        return;
-    }
-
-    coins += reward;
-
-    saveData();
-
-    updateScreen();
-
-    button.textContent = "Done";
-
-    button.classList.add("done");
-
-    button.disabled = true;
-
-    showPopup(
-        "+" + reward.toLocaleString() + " EBITO"
-    );
-
+.btn.dark{
+  background:#173124;
+  color:#fff;
 }
 
-
-/* =========================
-   PAGE NAVIGATION
-========================= */
-
-function showPage(pageId, button) {
-
-    document
-    .querySelectorAll(".page")
-    .forEach(function(page) {
-
-        page.classList.remove("active");
-
-    });
-
-
-    document
-    .getElementById(pageId)
-    .classList.add("active");
-
-
-    document
-    .querySelectorAll(".nav-button")
-    .forEach(function(btn) {
-
-        btn.classList.remove("active");
-
-    });
-
-
-    button.classList.add("active");
-
-    window.scrollTo(0,0);
-
+.btn.red{
+  background:#752833;
+  color:#fff;
 }
 
-
-/* =========================
-   COPY REFERRAL
-========================= */
-
-function copyLink() {
-
-    const link =
-    document.getElementById(
-        "referralLink"
-    ).textContent;
-
-    navigator.clipboard
-    .writeText(link)
-    .then(function() {
-
-        showPopup("Link Copied!");
-
-    })
-    .catch(function() {
-
-        showPopup("Copy failed");
-
-    });
-
+.btn.blue{
+  background:#377dff;
+  color:#fff;
 }
 
-
-/* =========================
-   POPUP
-========================= */
-
-let popupTimer;
-
-function showPopup(text) {
-
-    const popup =
-    document.getElementById("popup");
-
-    popup.textContent = text;
-
-    popup.classList.add("show");
-
-    clearTimeout(popupTimer);
-
-    popupTimer =
-    setTimeout(function() {
-
-        popup.classList.remove("show");
-
-    }, 1500);
-
+.btn.full{
+  width:100%;
 }
 
+.btn:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
 
-/* =========================
-   START
-========================= */
+.upgrade{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 
-updateScreen();
+.upgrade-icon{
+  width:50px;
+  height:50px;
+  flex:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:15px;
+  background:#173625;
+  font-size:24px;
+}
 
-</script>
+.upgrade-info{
+  flex:1;
+}
 
-</body>
-      </html
+.upgrade-name{
+  font-weight:900;
+}
+
+.upgrade-level{
+  margin-top:4px;
+  color:#819589;
+  font-size:11px;
+}
+
+.nav{
+  position:fixed;
+  z-index:50;
+  left:50%;
+  bottom:0;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:520px;
+  display:flex;
+  justify-content:space-around;
+  padding:9px 4px calc(9px + env(safe-area-inset-bottom));
+  background:#08130d;
+  border-top:1px solid #1b3325;
+}
+
+.nav button{
+  flex:1;
+  background:none;
+  color:#72867a;
+  font-size:10px;
+}
+
+.nav button.active{
+  color:#63ff9b;
+}
+
+.nav-icon{
+  display:block;
+  margin-bottom:3px;
+  font-size:20px;
+}
+
+.cipher{
+  text-align:center;
+}
+
+.morse{
+  min-height:60px;
+  margin:16px 0;
+  padding:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:14px;
+  background:#06100b;
+  color:#63ff9b;
+  font-size:24px;
+  letter-spacing:5px;
